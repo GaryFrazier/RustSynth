@@ -38,4 +38,5 @@ pub fn play_stream(stream: &Stream) {
     // Sleep for a while to allow the audio to play
     std::thread::sleep(std::time::Duration::from_secs(1));
 
+    stream.pause().expect("Failed to pause stream!");
 }
