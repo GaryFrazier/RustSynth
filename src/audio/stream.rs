@@ -1,5 +1,5 @@
 
-use cpal::{StreamConfig, Device, OutputCallbackInfo, SizedSample};
+use cpal::{Stream, StreamConfig, Device, OutputCallbackInfo, SizedSample};
 use cpal::traits::{DeviceTrait, StreamTrait};
 
 pub fn get_stream_config(output_device: &Device) -> StreamConfig {
@@ -14,7 +14,7 @@ pub fn get_stream_config(output_device: &Device) -> StreamConfig {
     return supported_config;
 }
 
-pub fn play_stream<C, T>(output_device: Device, stream_config: StreamConfig, stream_callback: C)
+pub fn create_audio_stream<C, T>(output_device: Device, stream_config: StreamConfig, stream_callback: C) -> Stream
     where
     T: SizedSample,
     C: FnMut(&mut [T], &OutputCallbackInfo) + Send + 'static {
@@ -28,12 +28,14 @@ pub fn play_stream<C, T>(output_device: Device, stream_config: StreamConfig, str
         None
     ).expect("Failed to build output stream");
 
+    return stream;
+}
+
+pub fn play_stream(stream: &Stream) {
     // Start the audio stream
     stream.play().expect("Failed to play stream");
 
     // Sleep for a while to allow the audio to play
-    std::thread::sleep(std::time::Duration::from_secs(5));
+    std::thread::sleep(std::time::Duration::from_secs(1));
 
-    // Stop the audio stream
-    stream.pause().expect("Failed to pause stream");
 }

@@ -18,5 +18,9 @@ fn main() {
         }
     };
 
-    audio::stream::play_stream(device, config, callback);
+    let stream = audio::stream::create_audio_stream(device, config, callback);
+
+    loop {
+        audio::stream::play_stream(&stream);
+    }
 }
