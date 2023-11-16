@@ -1,5 +1,5 @@
 [package]
-name = "rust_synth"
+name = "v_tracker"
 version = "0.1.0"
 edition = "2021"
 

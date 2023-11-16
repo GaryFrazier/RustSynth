@@ -1,9 +1,8 @@
 mod audio;
 use gtk::prelude::*;
 use gtk::{glib, Application, ApplicationWindow, Button};
-use cpal::Stream;
 
-const APP_ID: &str = "org.gtk_rs.HelloWorld1";
+const APP_ID: &str = "org.gtk_rs.VTracker";
 
 fn main() -> glib::ExitCode {
        // Create a new application
@@ -26,7 +25,7 @@ fn build_ui(app: &Application) {
     let sample_rate = config.sample_rate.0 as f32;
     let mut phase = 0.0;
     let frequency = 440.0; // Frequency of the sine wave in Hz
-    let volume = 1.0;
+    let volume = 0.03;
 
     let callback = move |output: &mut [f32], _: &cpal::OutputCallbackInfo| {
         for sample in output.iter_mut() {
@@ -38,10 +37,6 @@ fn build_ui(app: &Application) {
 
     let stream = audio::stream::create_audio_stream(device, config, callback);
 
-    /* loop {
-        audio::stream::play_stream(&stream);
-    }*/
-    
     // Create a button with label and margins
     let button = Button::builder()
         .label("Press me!")
@@ -61,7 +56,7 @@ fn build_ui(app: &Application) {
     // Create a window
     let window = ApplicationWindow::builder()
         .application(app)
-        .title("My GTK App")
+        .title("V-Track")
         .child(&button)
         .build();
 
